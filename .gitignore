@@ -1,9 +1,46 @@
-.env
+# Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+*.db
+.env
+*.env
 venv/
+.venv/
+env/
+.env.local
+
+# Node
 node_modules/
+.next/
 dist/
 build/
-.faiss/
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Vector DB
+faiss_index/
+chroma_db/
+*.faiss
 *.pkl
+
+# OS Files
+.DS_Store
+Thumbs.db
+*.tmp
+
+# Uploads
+uploads/
+
+# Mongo
+dump/
+
+# Misc
+*.zip
+*.bak

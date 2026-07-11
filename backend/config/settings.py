@@ -1,14 +1,14 @@
-from dotenv import load_dotenv
-import os
+from pydantic_settings import BaseSettings
 
-# Load environment variables from .env
-load_dotenv()
 
-class Settings:
-    APP_NAME = "Multi-Agent AI Customer Support Assistant"
-    APP_VERSION = "1.0.0"
+class Settings(BaseSettings):
+    GOOGLE_API_KEY: str
+    MONGODB_URI: str
+    DATABASE_NAME: str = "customer_support_ai"
+    JWT_SECRET: str
 
-    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-    MONGODB_URI = os.getenv("MONGODB_URI")
+    class Config:
+        env_file = ".env"
+
 
 settings = Settings()

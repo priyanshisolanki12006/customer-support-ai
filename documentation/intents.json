@@ -1,0 +1,26 @@
+[
+  {
+    "intent":"billing",
+    "examples":[
+      "payment failed",
+      "refund status",
+      "invoice issue"
+    ]
+  },
+  {
+    "intent":"technical",
+    "examples":[
+      "cannot login",
+      "app crashes",
+      "password reset"
+    ]
+  },
+  {
+    "intent":"product",
+    "examples":[
+      "pricing",
+      "features",
+      "subscription plans"
+    ]
+  }
+]
