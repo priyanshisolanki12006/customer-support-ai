@@ -1,15 +1,18 @@
 from fastapi import APIRouter
 from models.chat import ChatRequest
 from agents.intent_classifier import detect_intent
-from agents.router import route
 from rag.retriever import retrieve
-from utils.gemini import model
+from utils.chat_history import (
+    save_chat
+)
 
 router = APIRouter()
 
 
 @router.post("/chat")
-async def chat(request: ChatRequest):
+async def chat(
+    request: ChatRequest
+):
 
     intent = detect_intent(
         request.message
@@ -19,17 +22,15 @@ async def chat(request: ChatRequest):
         request.message
     )
 
-    prompt = route(
-        intent,
-        request.message,
-        context
-    )
+    response = context[:500]
 
-    response = model.generate_content(
-        prompt
+    save_chat(
+        request.session_id,
+        request.message,
+        response
     )
 
     return {
         "intent": intent,
-        "response": response.text
+        "response": response
     }

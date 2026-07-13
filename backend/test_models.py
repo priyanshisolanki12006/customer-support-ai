@@ -5,6 +5,8 @@ genai.configure(
     api_key=settings.GOOGLE_API_KEY
 )
 
-model = genai.GenerativeModel(
+response = genai.GenerativeModel(
     "gemini-2.0-flash"
-)
+).generate_content("Hello")
+
+print(response.text)

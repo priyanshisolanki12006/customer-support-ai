@@ -7,9 +7,14 @@ def retrieve(query):
 
     docs = db.similarity_search(
         query,
-        k=3
+        k=1
     )
 
-    return "\n".join(
-        [d.page_content for d in docs]
+    context = "\n\n".join(
+        [
+            doc.page_content
+            for doc in docs
+        ]
     )
+
+    return context
