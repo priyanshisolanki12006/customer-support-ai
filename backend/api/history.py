@@ -1,20 +1,34 @@
 from fastapi import APIRouter
-from utils.chat_history import (
-    get_chat_history
+from database.mongodb import (
+    chat_collection
 )
 
 router = APIRouter()
 
 
-@router.get(
-    "/history/{session_id}"
-)
-async def history(
-    session_id: str
-):
+@router.get("/")
+async def get_history():
 
-    chats = get_chat_history(
-        session_id
+    chats = list(
+        chat_collection.find(
+            {},
+            {
+                "_id": 0
+            }
+        )
     )
 
     return chats
+
+
+@router.delete("/")
+async def clear_history():
+
+    chat_collection.delete_many(
+        {}
+    )
+
+    return {
+        "message":
+        "History Cleared"
+    }

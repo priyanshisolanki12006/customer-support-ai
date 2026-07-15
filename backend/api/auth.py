@@ -3,6 +3,7 @@ from models.user import (
     UserRegister,
     UserLogin
 )
+
 from database.mongodb import (
     user_collection
 )
@@ -15,17 +16,14 @@ async def register(
     user: UserRegister
 ):
 
-    existing = (
-        user_collection.find_one(
-            {
-                "email":
-                user.email
-            }
-        )
+    existing = user_collection.find_one(
+        {
+            "email":
+            user.email
+        }
     )
 
     if existing:
-
         return {
             "message":
             "User already exists"
@@ -37,7 +35,7 @@ async def register(
 
     return {
         "message":
-        "Registered Successfully"
+        "Registered successfully"
     }
 
 
@@ -46,19 +44,16 @@ async def login(
     user: UserLogin
 ):
 
-    existing = (
-        user_collection.find_one(
-            {
-                "email":
-                user.email,
-                "password":
-                user.password
-            }
-        )
+    existing = user_collection.find_one(
+        {
+            "email":
+            user.email,
+            "password":
+            user.password
+        }
     )
 
     if not existing:
-
         return {
             "message":
             "Invalid Credentials"

@@ -11,10 +11,11 @@ def retrieve(query):
     )
 
     context = "\n\n".join(
-        [
-            doc.page_content
-            for doc in docs
-        ]
-    )
+    [
+        doc.page_content
+            .replace("•", "\n•")
+        for doc in docs
+    ]
+)
 
     return context

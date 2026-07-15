@@ -8,7 +8,6 @@ from utils.chat_history import (
 
 router = APIRouter()
 
-
 @router.post("/chat")
 async def chat(
     request: ChatRequest
@@ -22,7 +21,63 @@ async def chat(
         request.message
     )
 
-    response = context[:500]
+    response = (
+        context
+        .replace(
+            "Company Name:",
+            "Company Name:\n"
+        )
+        .replace(
+            "Office Hours:",
+            "Office Hours:\n"
+        )
+        .replace(
+            "Customer Support:",
+            "Customer Support:\n"
+        )
+        .replace(
+            "Email:",
+            "Email:\n"
+        )
+        .replace(
+            "Phone:",
+            "Phone:\n"
+        )
+        .replace(
+            "Address:",
+            "Address:\n"
+        )
+    )
+
+    response = response.replace(
+        "TechMart Electronics Refund Policy",
+        "📋 Refund Policy"
+    )
+
+    response = response.replace(
+        "TechMart Electronics Company Information",
+        "🏢 Company Information"
+    )
+
+    response = response.replace(
+        "TechMart Electronics Shipping Policy",
+        "🚚 Shipping Policy"
+    )
+
+    response = response.replace(
+        "TechMart Electronics Warranty Policy",
+        "🛡️ Warranty Policy"
+    )
+
+    response = response.replace(
+        "TechMart Electronics Product Catalog",
+        "💻 Product Catalog"
+    )
+
+    response = response.replace(
+        "TechMart Electronics Subscription Plans",
+        "💳 Subscription Plans"
+    )
 
     save_chat(
         request.session_id,

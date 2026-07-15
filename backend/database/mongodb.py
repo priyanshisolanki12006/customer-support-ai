@@ -1,14 +1,17 @@
 from pymongo import MongoClient
-from config.settings import settings
 
 client = MongoClient(
-    settings.MONGODB_URI
+    "mongodb://localhost:27017"
 )
 
 db = client[
-    settings.DATABASE_NAME
+    "customer_support_ai"
 ]
 
-chat_collection = db["chat_history"]
+chat_collection = db[
+    "chat_history"
+]
 
-user_collection = db["users"]
+user_collection = db[
+    "users"
+]
