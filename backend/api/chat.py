@@ -2,90 +2,103 @@ from fastapi import APIRouter
 from models.chat import ChatRequest
 from agents.intent_classifier import detect_intent
 from rag.retriever import retrieve
-from utils.chat_history import (
-    save_chat
-)
+from utils.chat_history import save_chat
 
 router = APIRouter()
+
 
 @router.post("/chat")
 async def chat(
     request: ChatRequest
 ):
 
-    intent = detect_intent(
-        request.message
-    )
+    try:
 
-    context = retrieve(
-        request.message
-    )
-
-    response = (
-        context
-        .replace(
-            "Company Name:",
-            "Company Name:\n"
+        intent = detect_intent(
+            request.message
         )
-        .replace(
-            "Office Hours:",
-            "Office Hours:\n"
+
+        context = retrieve(
+            request.message
         )
-        .replace(
-            "Customer Support:",
-            "Customer Support:\n"
+
+        response = (
+            context
+            .replace(
+                "Company Name:",
+                "Company Name:\n"
+            )
+            .replace(
+                "Office Hours:",
+                "Office Hours:\n"
+            )
+            .replace(
+                "Customer Support:",
+                "Customer Support:\n"
+            )
+            .replace(
+                "Email:",
+                "Email:\n"
+            )
+            .replace(
+                "Phone:",
+                "Phone:\n"
+            )
+            .replace(
+                "Address:",
+                "Address:\n"
+            )
         )
-        .replace(
-            "Email:",
-            "Email:\n"
+
+        response = response.replace(
+            "TechMart Electronics Refund Policy",
+            "📋 Refund Policy"
         )
-        .replace(
-            "Phone:",
-            "Phone:\n"
+
+        response = response.replace(
+            "TechMart Electronics Company Information",
+            "🏢 Company Information"
         )
-        .replace(
-            "Address:",
-            "Address:\n"
+
+        response = response.replace(
+            "TechMart Electronics Shipping Policy",
+            "🚚 Shipping Policy"
         )
-    )
 
-    response = response.replace(
-        "TechMart Electronics Refund Policy",
-        "📋 Refund Policy"
-    )
+        response = response.replace(
+            "TechMart Electronics Warranty Policy",
+            "🛡️ Warranty Policy"
+        )
 
-    response = response.replace(
-        "TechMart Electronics Company Information",
-        "🏢 Company Information"
-    )
+        response = response.replace(
+            "TechMart Electronics Product Catalog",
+            "💻 Product Catalog"
+        )
 
-    response = response.replace(
-        "TechMart Electronics Shipping Policy",
-        "🚚 Shipping Policy"
-    )
+        response = response.replace(
+            "TechMart Electronics Subscription Plans",
+            "💳 Subscription Plans"
+        )
 
-    response = response.replace(
-        "TechMart Electronics Warranty Policy",
-        "🛡️ Warranty Policy"
-    )
+        save_chat(
+            request.session_id,
+            request.message,
+            response
+        )
 
-    response = response.replace(
-        "TechMart Electronics Product Catalog",
-        "💻 Product Catalog"
-    )
+        return {
+            "intent": intent,
+            "response": response
+        }
 
-    response = response.replace(
-        "TechMart Electronics Subscription Plans",
-        "💳 Subscription Plans"
-    )
+    except Exception as e:
 
-    save_chat(
-        request.session_id,
-        request.message,
-        response
-    )
+        print(
+            "ERROR:",
+            e
+        )
 
-    return {
-        "intent": intent,
-        "response": response
-    }
+        return {
+            "intent": "error",
+            "response": "Server Error"
+        }
