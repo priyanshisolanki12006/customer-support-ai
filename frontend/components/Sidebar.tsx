@@ -1,46 +1,145 @@
+"use client";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
 export default function Sidebar() {
+
+  const router = useRouter();
+
+  const logout = () => {
+
+    localStorage.removeItem(
+      "user"
+    );
+
+    router.push(
+      "/login"
+    );
+  };
+
   return (
+
     <div
       className="
-      w-64
-      bg-gray-900
+      w-72
+      bg-slate-950
       text-white
-      p-6
       flex
       flex-col
+      p-6
       "
     >
-      <h1 className="text-2xl font-bold mb-8">
+
+      <h1
+        className="
+        text-4xl
+        font-bold
+        mb-10
+        "
+      >
         TechMart AI
       </h1>
 
       <div className="space-y-5">
 
-        <div className="bg-gray-800 p-3 rounded-lg">
+        <Link
+          href="/dashboard"
+          className="
+          block
+          bg-slate-800
+          p-5
+          rounded-xl
+          hover:bg-slate-700
+          "
+        >
           🏠 Dashboard
-        </div>
+        </Link>
 
-        <div className="bg-gray-800 p-3 rounded-lg">
+        <Link
+          href="/"
+          className="
+          block
+          bg-slate-800
+          p-5
+          rounded-xl
+          hover:bg-slate-700
+          "
+        >
           🤖 AI Support
-        </div>
+        </Link>
 
-        <div className="bg-gray-800 p-3 rounded-lg">
+        <Link
+          href="/knowledge"
+          className="
+          block
+          bg-slate-800
+          p-5
+          rounded-xl
+          hover:bg-slate-700
+          "
+        >
           📚 Knowledge Base
-        </div>
+        </Link>
 
-        <div className="bg-gray-800 p-3 rounded-lg">
+        <Link
+          href="/history"
+          className="
+          block
+          bg-slate-800
+          p-5
+          rounded-xl
+          hover:bg-slate-700
+          "
+        >
           💬 Chat History
-        </div>
+        </Link>
 
-        <div className="bg-gray-800 p-3 rounded-lg">
+        <Link
+          href="/login"
+          className="
+          block
+          bg-slate-800
+          p-5
+          rounded-xl
+          hover:bg-slate-700
+          "
+        >
           👤 Authentication
-        </div>
+        </Link>
 
       </div>
 
-      <div className="mt-auto pt-6 text-sm text-gray-400">
-        TechMart Electronics
+      <div className="mt-auto">
+
+        <button
+          onClick={logout}
+          className="
+          w-full
+          bg-red-600
+          hover:bg-red-700
+          p-4
+          rounded-xl
+          mt-8
+          "
+        >
+          Logout
+        </button>
+
+        <p
+          className="
+          text-gray-400
+          text-sm
+          mt-5
+          text-center
+          "
+        >
+          © 2026 TechMart
+        </p>
+
       </div>
+
     </div>
+
   );
 }

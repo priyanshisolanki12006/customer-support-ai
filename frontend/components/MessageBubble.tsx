@@ -7,19 +7,34 @@ export default function MessageBubble({
   sender,
   text,
 }: Props) {
-
   return (
     <div
       className={`
-        p-3 rounded-lg my-2 max-w-2xl
-        ${
-          sender === "user"
-            ? "bg-blue-500 text-white ml-auto"
-            : "bg-gray-200 text-black"
-        }
+      flex mb-4
+      ${
+        sender === "user"
+          ? "justify-end"
+          : "justify-start"
+      }
       `}
     >
-      {text}
+      <div
+        className={`
+        px-5
+        py-4
+        rounded-2xl
+        whitespace-pre-line
+        leading-6
+        shadow-md
+        ${
+          sender === "user"
+            ? "bg-blue-500 text-white max-w-xl"
+            : "bg-white text-black w-full max-w-3xl"
+        }
+        `}
+      >
+        {text}
+      </div>
     </div>
   );
 }

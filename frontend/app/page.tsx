@@ -1,43 +1,97 @@
+"use client";
+
 import ChatWindow from "../components/ChatWindow";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+
+  const [loggedIn,
+  setLoggedIn] =
+    useState(false);
+
+  useEffect(() => {
+
+    const user =
+      localStorage.getItem(
+        "user"
+      );
+
+    if (user) {
+
+      setLoggedIn(
+        true
+      );
+
+    }
+
+  }, []);
+
   return (
+
     <div>
 
-      <div className="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg">
+      {!loggedIn ? (
 
-        <a
-          href="/login"
+        <div
           className="
-          bg-blue-600
-          text-white
-          px-5
-          py-2
-          rounded-lg
-          hover:bg-blue-700
+          h-screen
+          flex
+          flex-col
+          items-center
+          justify-center
+          bg-gray-100
           "
         >
-          Login
-        </a>
 
-        <a
-          href="/register"
-          className="
-          bg-green-600
-          text-white
-          px-5
-          py-2
-          rounded-lg
-          hover:bg-green-700
-          "
-        >
-          Register
-        </a>
+          <h1
+            className="
+            text-5xl
+            font-bold
+            mb-12
+            "
+          >
+            TechMart AI
+          </h1>
 
-      </div>
+          <div className="flex gap-5">
 
-      <ChatWindow />
+            <a
+              href="/login"
+              className="
+              bg-blue-600
+              text-white
+              px-8
+              py-4
+              rounded-xl
+              "
+            >
+              Login
+            </a>
+
+            <a
+              href="/register"
+              className="
+              bg-green-600
+              text-white
+              px-8
+              py-4
+              rounded-xl
+              "
+            >
+              Register
+            </a>
+
+          </div>
+
+        </div>
+
+      ) : (
+
+        <ChatWindow />
+
+      )}
 
     </div>
+
   );
 }

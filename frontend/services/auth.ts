@@ -1,39 +1,42 @@
 import axios from "axios";
 
-const API = axios.create({
-  baseURL: "http://127.0.0.1:8000",
-});
+const API =
+  "http://127.0.0.1:8000";
 
-export const registerUser = async (
-  name: string,
-  email: string,
-  password: string
-) => {
+export const registerUser =
+  async (
+    name: string,
+    email: string,
+    password: string
+  ) => {
 
-  const response = await API.post(
-    "/register",
-    {
-      name,
-      email,
-      password,
-    }
-  );
+    const res =
+      await axios.post(
+        `${API}/auth/register`,
+        {
+          name,
+          email,
+          password
+        }
+      );
 
-  return response.data;
+    return res.data;
 };
 
-export const loginUser = async (
-  email: string,
-  password: string
-) => {
+export const loginUser =
+  async (
+    email: string,
+    password: string
+  ) => {
 
-  const response = await API.post(
-    "/login",
-    {
-      email,
-      password,
-    }
-  );
+    const res =
+      await axios.post(
+        `${API}/auth/login`,
+        {
+          email,
+          password
+        }
+      );
 
-  return response.data;
+    return res.data;
 };

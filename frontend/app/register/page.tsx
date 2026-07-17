@@ -1,9 +1,13 @@
 "use client";
-
+import Link from "next/link";
 import { useState } from "react";
 import { registerUser } from "../../services/auth";
+import { useRouter } from "next/navigation";
 
 export default function Register() {
+
+  const router =
+    useRouter();
 
   const [name, setName] =
     useState("");
@@ -30,6 +34,16 @@ export default function Register() {
           res.message
         );
 
+        if (
+          res.message ===
+          "Registered successfully"
+        ) {
+
+          router.push(
+            "/login"
+          );
+        }
+
       } catch {
 
         alert(
@@ -40,7 +54,6 @@ export default function Register() {
     };
 
   return (
-
     <div className="h-screen flex items-center justify-center bg-gray-100">
 
       <div className="bg-white p-8 rounded-xl shadow-lg w-96">
@@ -84,24 +97,48 @@ export default function Register() {
         />
 
         <button
-          onClick={
-            handleRegister
-          }
-          className="
-            w-full
-            bg-blue-600
-            text-white
-            p-3
-            rounded-lg
-          "
-        >
-          Register
-        </button>
+  onClick={
+    handleRegister
+  }
+  className="
+    w-full
+    bg-blue-600
+    text-white
+    p-3
+    rounded-lg
+  "
+>
+  Register
+</button>
 
-      </div>
+<p
+  className="
+  text-center
+  mt-6
+  text-gray-600
+  "
+>
+  Already have an account?
+</p>
 
-    </div>
-    
-     
+<Link
+  href="/login"
+  className="
+  block
+  text-center
+  mt-3
+  bg-green-600
+  text-white
+  p-3
+  rounded-lg
+  hover:bg-green-700
+  "
+>
+  Login
+</Link>
+
+</div>
+
+</div>
   );
 }
