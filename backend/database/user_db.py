@@ -1,8 +1,9 @@
 from pymongo import MongoClient
 
-client = MongoClient(
-    "mongodb://localhost:27017"
-)
+import os
+from pymongo import MongoClient
+
+client = MongoClient(os.getenv("MONGO_URI"))
 
 db = client["customer_support_ai"]
 
