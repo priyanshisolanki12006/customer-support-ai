@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API =
-  "http://127.0.0.1:8000";
+  "https://customersupportai-production-f8a4.up.railway.app";
 
 export const getHistory =
   async () => {

@@ -255,7 +255,7 @@ uvicorn main:app --reload
 Backend URL:
 
 ```text
-http://localhost:8000
+https://customersupportai-production-f8a4.up.railway.app
 ```
 
 ---
