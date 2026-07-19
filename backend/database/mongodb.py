@@ -1,21 +1,11 @@
-from pymongo import MongoClient
-from dotenv import load_dotenv
 import os
+from pymongo import MongoClient
 
-load_dotenv()
+MONGO_URI = os.getenv("MONGO_URI")
 
-client = MongoClient(
-    os.getenv("MONGO_URI")
-)
+client = MongoClient(MONGO_URI)
 
-db = client[
-    "customer_support_ai"
-]
+db = client["customer_support_ai"]
 
-chat_collection = db[
-    "chat_history"
-]
-
-user_collection = db[
-    "users"
-]
+chat_collection = db["chat_history"]
+user_collection = db["users"]
