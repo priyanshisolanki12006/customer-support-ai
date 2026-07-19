@@ -1,11 +1,11 @@
+from utils.gemini import answer
+from utils.prompts import PRODUCT_PROMPT
+
+
 def product_agent(query, context):
 
-    return f"""
-Product Information
-
-Context:
-{context}
-
-Query:
-{query}
-"""
+    return answer(
+        PRODUCT_PROMPT,
+        query,
+        context
+    )

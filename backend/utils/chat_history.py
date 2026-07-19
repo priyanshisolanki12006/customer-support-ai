@@ -1,4 +1,4 @@
-from database.mongodb import chat_collection
+from database.mongodb import get_chat_collection
 
 
 def save_chat(
@@ -7,7 +7,7 @@ def save_chat(
     bot_response
 ):
 
-    chat_collection.insert_one(
+    get_chat_collection().insert_one(
         {
             "session_id": session_id,
             "user_message": user_message,
@@ -21,7 +21,7 @@ def get_chat_history(
 ):
 
     chats = list(
-        chat_collection.find(
+        get_chat_collection().find(
             {
                 "session_id": session_id
             },

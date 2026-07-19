@@ -1,14 +1,19 @@
 import axios from "axios";
 
-const API =
-  "https://customersupportai-production-f8a4.up.railway.app";
+import { API_BASE_URL } from "./config";
+import { getSessionId } from "./session";
 
 export const getHistory =
   async () => {
 
     const res =
       await axios.get(
-        `${API}/history`
+        `${API_BASE_URL}/history`,
+        {
+          params: {
+            session_id: getSessionId()
+          }
+        }
       );
 
     return res.data;
@@ -19,7 +24,12 @@ export const clearHistory =
 
     const res =
       await axios.delete(
-        `${API}/history`
+        `${API_BASE_URL}/history`,
+        {
+          params: {
+            session_id: getSessionId()
+          }
+        }
       );
 
     return res.data;

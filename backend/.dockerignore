@@ -1,4 +1,9 @@
 venv/
 __pycache__/
 *.pyc
-faiss_index/
+
+# Never bake local secrets into an image.
+.env
+
+# NOTE: faiss_index/ is deliberately NOT ignored — the image ships the
+# prebuilt vector index so the container does not re-embed on startup.

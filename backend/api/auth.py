@@ -1,25 +1,26 @@
 from fastapi import APIRouter
+
+from database.mongodb import get_user_collection
 from models.user import (
     UserRegister,
     UserLogin
-)
-
-from database.mongodb import (
-    user_collection
 )
 
 router = APIRouter()
 
 
 @router.post("/register")
-async def register(
+def register(
     user: UserRegister
 ):
+    # NOTE: passwords are stored as plaintext and no session token is issued.
+    # This is demo-grade only — see README before putting real users on it.
 
-    existing = user_collection.find_one(
+    users = get_user_collection()
+
+    existing = users.find_one(
         {
-            "email":
-            user.email
+            "email": user.email
         }
     )
 
@@ -29,8 +30,8 @@ async def register(
             "User already exists"
         }
 
-    user_collection.insert_one(
-        user.dict()
+    users.insert_one(
+        user.model_dump()
     )
 
     return {
@@ -40,16 +41,14 @@ async def register(
 
 
 @router.post("/login")
-async def login(
+def login(
     user: UserLogin
 ):
 
-    existing = user_collection.find_one(
+    existing = get_user_collection().find_one(
         {
-            "email":
-            user.email,
-            "password":
-            user.password
+            "email": user.email,
+            "password": user.password
         }
     )
 

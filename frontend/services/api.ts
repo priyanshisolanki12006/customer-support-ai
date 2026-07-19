@@ -1,7 +1,10 @@
 import axios from "axios";
 
+import { API_BASE_URL } from "./config";
+import { getSessionId } from "./session";
+
 const API = axios.create({
-  baseURL: "https://customersupportai-production-f8a4.up.railway.app",
+  baseURL: API_BASE_URL,
 });
 
 export const sendMessage = async (
@@ -11,7 +14,7 @@ export const sendMessage = async (
   const response = await API.post(
     "/chat",
     {
-      session_id: "1",
+      session_id: getSessionId(),
       message,
     }
   );

@@ -1,16 +1,25 @@
-from fastapi import APIRouter
-from models.chat import ChatRequest
+import logging
+
+from fastapi import APIRouter, HTTPException
+
 from agents.intent_classifier import detect_intent
+from agents.router import route
+from models.chat import ChatRequest
 from rag.retriever import retrieve
 from utils.chat_history import save_chat
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
 
 @router.post("/chat")
-async def chat(
+def chat(
     request: ChatRequest
 ):
+    # Defined with `def` rather than `async def`: retrieval, the Gemini call
+    # and the Mongo write are all blocking, so FastAPI runs this in a
+    # threadpool instead of stalling the event loop.
 
     try:
 
@@ -22,63 +31,24 @@ async def chat(
             request.message
         )
 
-        response = (
+        response = route(
+            intent,
+            request.message,
             context
-            .replace(
-                "Company Name:",
-                "Company Name:\n"
-            )
-            .replace(
-                "Office Hours:",
-                "Office Hours:\n"
-            )
-            .replace(
-                "Customer Support:",
-                "Customer Support:\n"
-            )
-            .replace(
-                "Email:",
-                "Email:\n"
-            )
-            .replace(
-                "Phone:",
-                "Phone:\n"
-            )
-            .replace(
-                "Address:",
-                "Address:\n"
-            )
         )
 
-        response = response.replace(
-            "TechMart Electronics Refund Policy",
-            "📋 Refund Policy"
+    except Exception:
+
+        logger.exception(
+            "Chat request failed"
         )
 
-        response = response.replace(
-            "TechMart Electronics Company Information",
-            "🏢 Company Information"
+        raise HTTPException(
+            status_code=502,
+            detail="Unable to generate a response right now."
         )
 
-        response = response.replace(
-            "TechMart Electronics Shipping Policy",
-            "🚚 Shipping Policy"
-        )
-
-        response = response.replace(
-            "TechMart Electronics Warranty Policy",
-            "🛡️ Warranty Policy"
-        )
-
-        response = response.replace(
-            "TechMart Electronics Product Catalog",
-            "💻 Product Catalog"
-        )
-
-        response = response.replace(
-            "TechMart Electronics Subscription Plans",
-            "💳 Subscription Plans"
-        )
+    try:
 
         save_chat(
             request.session_id,
@@ -86,19 +56,14 @@ async def chat(
             response
         )
 
-        return {
-            "intent": intent,
-            "response": response
-        }
+    except Exception:
 
-    except Exception as e:
-
-        print(
-            "ERROR:",
-            e
+        # A history write failure should not cost the customer their answer.
+        logger.exception(
+            "Failed to persist chat history"
         )
 
-        return {
-            "intent": "error",
-            "response": "Server Error"
-        }
+    return {
+        "intent": intent,
+        "response": response
+    }

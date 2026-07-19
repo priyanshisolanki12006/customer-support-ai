@@ -25,10 +25,13 @@ build/
 *.log
 
 # Vector DB
-faiss_index/
+# backend/faiss_index/ is committed on purpose: the deployed service loads a
+# prebuilt index rather than re-embedding the PDFs on every cold start.
 chroma_db/
 *.faiss
 *.pkl
+!backend/faiss_index/*.faiss
+!backend/faiss_index/*.pkl
 
 # OS Files
 .DS_Store

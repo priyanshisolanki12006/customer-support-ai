@@ -1,34 +1,48 @@
 from fastapi import APIRouter
-from database.mongodb import (
-    chat_collection
-)
+
+from database.mongodb import get_chat_collection
 
 router = APIRouter()
 
 
-@router.get("/")
-async def get_history():
+@router.get("")
+def get_history(
+    session_id: str | None = None
+):
+    # Without a session_id this returns every conversation in the database.
+    # The frontend always sends one; see the note in README about locking
+    # this down properly once real authentication exists.
 
-    chats = list(
-        chat_collection.find(
-            {},
-            {
-                "_id": 0
-            }
+    query = (
+        {"session_id": session_id}
+        if session_id
+        else {}
+    )
+
+    return list(
+        get_chat_collection().find(
+            query,
+            {"_id": 0}
         )
     )
 
-    return chats
 
+@router.delete("")
+def clear_history(
+    session_id: str | None = None
+):
 
-@router.delete("/")
-async def clear_history():
+    query = (
+        {"session_id": session_id}
+        if session_id
+        else {}
+    )
 
-    chat_collection.delete_many(
-        {}
+    result = get_chat_collection().delete_many(
+        query
     )
 
     return {
-        "message":
-        "History Cleared"
+        "message": "History Cleared",
+        "deleted": result.deleted_count
     }

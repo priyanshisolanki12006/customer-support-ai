@@ -1,10 +1,16 @@
+import logging
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from api.auth import router as auth_router
 from api.chat import router as chat_router
+from api.dashboard import router as dashboard_router
 from api.health import router as health_router
 from api.history import router as history_router
-from api.auth import router as auth_router
+from config.settings import settings
+
+logging.basicConfig(level=logging.INFO)
 
 app = FastAPI(
     title="Customer Support AI"
@@ -12,10 +18,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "https://your-vercel-domain.vercel.app"
-    ],
+    allow_origins=settings.allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -33,4 +36,9 @@ app.include_router(
 app.include_router(
     history_router,
     prefix="/history"
+)
+
+app.include_router(
+    dashboard_router,
+    prefix="/dashboard"
 )

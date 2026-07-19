@@ -1,12 +1,30 @@
-import os
+from functools import lru_cache
+
 from pymongo import MongoClient
 
-print("ENV VALUE:", "MONGO_URI" in os.environ)
-print("URI:", os.environ.get("MONGO_URI"))
+from config.settings import settings
 
-client = MongoClient(os.environ["MONGO_URI"])
 
-db = client["customer_support_ai"]
+@lru_cache(maxsize=1)
+def get_client() -> MongoClient:
+    """Connect lazily so an unreachable database cannot break app startup."""
 
-chat_collection = db["chat_history"]
-user_collection = db["users"]
+    return MongoClient(
+        settings.MONGO_URI,
+        serverSelectionTimeoutMS=5000
+    )
+
+
+def get_db():
+
+    return get_client()[settings.DATABASE_NAME]
+
+
+def get_chat_collection():
+
+    return get_db()["chat_history"]
+
+
+def get_user_collection():
+
+    return get_db()["users"]

@@ -4,19 +4,26 @@ import Sidebar from "@/components/Sidebar";
 
 export default function Knowledge() {
 
+  // Mirrors the PDFs in knowledge_base/ that are indexed for retrieval.
   const docs = [
 
     "Company Information.pdf",
 
-    "Refund Policy.pdf",
+    "FAQ.pdf",
 
-    "Warranty Policy.pdf",
+    "Installation Guide.pdf",
+
+    "Pricing.pdf",
+
+    "Products.pdf",
+
+    "Refund Policy.pdf",
 
     "Shipping Policy.pdf",
 
-    "Subscription Plans.pdf",
+    "User Manual.pdf",
 
-    "Product Catalog.pdf"
+    "Warranty.pdf"
 
   ];
 

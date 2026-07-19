@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const API =
-  "https://customersupportai-production-f8a4.up.railway.app";
+import { API_BASE_URL } from "./config";
 
 export const registerUser =
   async (
@@ -12,7 +11,7 @@ export const registerUser =
 
     const res =
       await axios.post(
-        `${API}/auth/register`,
+        `${API_BASE_URL}/auth/register`,
         {
           name,
           email,
@@ -31,7 +30,7 @@ export const loginUser =
 
     const res =
       await axios.post(
-        `${API}/auth/login`,
+        `${API_BASE_URL}/auth/login`,
         {
           email,
           password

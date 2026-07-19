@@ -8,4 +8,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD ["python","-m","uvicorn","main:app","--host","0.0.0.0","--port","8000"]
+ENV PORT=8000
+
+# Shell form so $PORT is expanded at runtime — hosting platforms assign it.
+CMD python -m uvicorn main:app --host 0.0.0.0 --port $PORT
