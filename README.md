@@ -468,20 +468,6 @@ The system should be tested for:
 
 ---
 
-# 📈 Evaluation Criteria
-
-| Component                  | Marks |
-| -------------------------- | ----- |
-| Frontend Design            | 10    |
-| Backend APIs               | 15    |
-| Multi-Agent Architecture   | 20    |
-| RAG Implementation         | 20    |
-| LLM Integration            | 15    |
-| Database Design            | 10    |
-| Documentation & Deployment | 10    |
-
----
-
 # 👨‍💻 Developed By
 
 **Priyanshi Solanki**
